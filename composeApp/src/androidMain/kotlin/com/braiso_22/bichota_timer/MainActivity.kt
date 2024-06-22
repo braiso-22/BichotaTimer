@@ -1,6 +1,5 @@
 package com.braiso_22.bichota_timer
 
-import App
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent

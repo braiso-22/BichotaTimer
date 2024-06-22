@@ -1,3 +1,5 @@
+package com.braiso_22.bichota_timer
+
 import androidx.compose.runtime.Composable
 
 @Composable

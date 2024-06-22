@@ -1,3 +1,5 @@
+package com.braiso_22.bichota_timer
+
 import android.app.Activity
 import android.os.Build
 import androidx.compose.material3.MaterialTheme
@@ -10,6 +12,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import darkScheme
+import lightScheme
 
 @Composable
 actual fun AppTheme(

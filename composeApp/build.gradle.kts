@@ -45,10 +45,15 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.navigation.compose)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.datetime.ext)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation("com.github.tkuenneth:nativeparameterstoreaccess:0.1.0")
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
         }
     }
 }
@@ -88,6 +93,9 @@ android {
     dependencies {
         debugImplementation(compose.uiTooling)
     }
+}
+dependencies {
+    testImplementation(libs.junit)
 }
 
 compose.desktop {

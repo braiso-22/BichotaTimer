@@ -8,19 +8,16 @@ import com.braiso_22.bichota_timer.tasks.domain.entities.Task
 import com.raedghazal.kotlinx_datetime_ext.now
 import com.raedghazal.kotlinx_datetime_ext.plus
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.takeWhile
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.hours
 
 class TaskUseCases {
@@ -30,6 +27,7 @@ class TaskUseCases {
     private lateinit var addSegment: AddSegment
     private lateinit var getTasksWithAllExecutionsByUser: GetTasksWithAllExecutionsByUser
     private lateinit var getTaskWithAllExecutions: GetTaskWithAllExecutions
+    private lateinit var getWorkedHoursByDateRange: GetWorkedHoursByDateRange
 
     @BeforeTest
     fun setup() {
@@ -39,6 +37,7 @@ class TaskUseCases {
         addSegment = AddSegment(taskRepository)
         getTasksWithAllExecutionsByUser = GetTasksWithAllExecutionsByUser(taskRepository)
         getTaskWithAllExecutions = GetTaskWithAllExecutions(taskRepository)
+        getWorkedHoursByDateRange = GetWorkedHoursByDateRange(getTasksWithAllExecutionsByUser)
     }
 
     @Test
@@ -56,7 +55,7 @@ class TaskUseCases {
 
         val tasks = getTasksWithAllExecutionsByUser("user1").take(1).first()
 
-        assertEquals(tasks.size, 1)
+        assertEquals(1, tasks.size)
         assertContains(tasks, newTask)
     }
 
@@ -84,7 +83,7 @@ class TaskUseCases {
 
         val tasks = getTasksWithAllExecutionsByUser("user1").take(1).first()
 
-        assertEquals(tasks.size, 1)
+        assertEquals(1, tasks.size)
         assertContains(tasks, secondTask)
     }
 
@@ -113,7 +112,7 @@ class TaskUseCases {
 
         val tasks: List<Task> = getTasksWithAllExecutionsByUser("user1").take(1).first()
 
-        assertEquals(tasks.size, 1)
+        assertEquals(1, tasks.size)
         assertContains(tasks, newTask)
     }
 
@@ -139,13 +138,13 @@ class TaskUseCases {
 
         val newSegment = Segment(
             id = "1",
-            start = LocalDateTime.now(),
-            end = LocalDateTime.now() + 1.hours,
+            start = LocalTime.now(),
+            end = (LocalDateTime.now() + 1.hours).time,
             executionId = newExecution.id
         )
         val segment2 = Segment(
             id = "2",
-            start = LocalDateTime.now() + 2.hours,
+            start = (LocalDateTime.now() + 2.hours).time,
             executionId = secondExecution.id
         )
 

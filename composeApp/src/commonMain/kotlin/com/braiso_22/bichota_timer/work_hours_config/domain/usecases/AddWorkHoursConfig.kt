@@ -6,10 +6,14 @@ import kotlinx.coroutines.flow.first
 
 class AddWorkHoursConfig(
     private val workHoursConfigRepository: WorkHoursConfigRepository,
-    private val checkForConflicts: CheckForConflicts
+    private val checkForConflicts: CheckForConflicts,
+    private val getConfigsByUserId: GetConfigsByUserId
 ) {
     suspend operator fun invoke(workHoursConfig: WorkHoursConfig) {
-        val hasOverlap = checkForConflicts(workHoursConfig).first()
+        val hasOverlap = checkForConflicts(
+            workHoursConfig,
+            getConfigsByUserId(workHoursConfig.userId).first()
+        )
 
         if (!hasOverlap) {
             workHoursConfigRepository.addWorkHoursConfig(workHoursConfig)

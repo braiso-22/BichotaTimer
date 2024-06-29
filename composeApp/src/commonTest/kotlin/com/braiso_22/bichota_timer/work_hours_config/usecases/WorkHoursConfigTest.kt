@@ -24,9 +24,13 @@ class WorkHoursConfigTest {
     @BeforeTest
     fun setup() {
         workHoursConfigRepository = WorkHoursConfigRepositoryMock()
-        checkForConflicts = CheckForConflicts(workHoursConfigRepository)
-        addWorkHoursConfigTest = AddWorkHoursConfig(workHoursConfigRepository, checkForConflicts)
+        checkForConflicts = CheckForConflicts()
         getConfigsByUserId = GetConfigsByUserId(workHoursConfigRepository)
+        addWorkHoursConfigTest = AddWorkHoursConfig(
+            workHoursConfigRepository,
+            checkForConflicts,
+            getConfigsByUserId,
+        )
     }
 
     @Test

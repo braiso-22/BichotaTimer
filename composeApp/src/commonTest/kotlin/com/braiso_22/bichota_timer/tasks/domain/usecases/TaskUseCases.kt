@@ -27,7 +27,7 @@ class TaskUseCases {
     private lateinit var addSegment: AddSegment
     private lateinit var getTasksWithAllExecutionsByUser: GetTasksWithAllExecutionsByUser
     private lateinit var getTaskWithAllExecutions: GetTaskWithAllExecutions
-    private lateinit var getWorkedHoursByDateRange: GetWorkedHoursByDateRange
+    private lateinit var getWorkedHoursOfTasks: GetWorkedHoursOfTasks
 
     @BeforeTest
     fun setup() {
@@ -37,7 +37,7 @@ class TaskUseCases {
         addSegment = AddSegment(taskRepository)
         getTasksWithAllExecutionsByUser = GetTasksWithAllExecutionsByUser(taskRepository)
         getTaskWithAllExecutions = GetTaskWithAllExecutions(taskRepository)
-        getWorkedHoursByDateRange = GetWorkedHoursByDateRange(getTasksWithAllExecutionsByUser)
+        getWorkedHoursOfTasks = GetWorkedHoursOfTasks()
     }
 
     @Test

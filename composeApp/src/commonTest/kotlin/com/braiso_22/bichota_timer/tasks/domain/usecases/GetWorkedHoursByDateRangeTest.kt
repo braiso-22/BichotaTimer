@@ -28,7 +28,8 @@ class GetWorkedHoursByDateRangeTest {
     private lateinit var addExecution: AddExecution
     private lateinit var addSegment: AddSegment
     private lateinit var getTasksWithAllExecutionsByUser: GetTasksWithAllExecutionsByUser
-    private lateinit var getWorkedHoursByDateRange: GetWorkedHoursByDateRange
+    private lateinit var getWorkedHoursOfTasks: GetWorkedHoursOfTasks
+    private lateinit var getTasksWithExecutionsInDateRange: GetTasksWithExecutionsInDateRange
 
     @BeforeTest
     fun setup() {
@@ -37,7 +38,8 @@ class GetWorkedHoursByDateRangeTest {
         addExecution = AddExecution(taskRepository)
         addSegment = AddSegment(taskRepository)
         getTasksWithAllExecutionsByUser = GetTasksWithAllExecutionsByUser(taskRepository)
-        getWorkedHoursByDateRange = GetWorkedHoursByDateRange(getTasksWithAllExecutionsByUser)
+        getTasksWithExecutionsInDateRange = GetTasksWithExecutionsInDateRange(getTasksWithAllExecutionsByUser)
+        getWorkedHoursOfTasks = GetWorkedHoursOfTasks()
     }
 
     @Test
@@ -51,12 +53,12 @@ class GetWorkedHoursByDateRangeTest {
         )
 
         addTask(newTask)
-
-        val workedHours = getWorkedHoursByDateRange(
+        val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",
             from = LocalDate(2024, 1, 1),
             to = (LocalDateTime.now() + 1.days).date
         ).first()
+        val workedHours = getWorkedHoursOfTasks(tasks)
         assertEquals(0f, workedHours)
     }
 
@@ -86,11 +88,13 @@ class GetWorkedHoursByDateRangeTest {
         )
         addSegment(segment)
 
-        val workedHours = getWorkedHoursByDateRange(
+        val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",
             from = LocalDate(2024, 1, 1),
             to = (LocalDateTime.now() + 1.days).date
         ).first()
+        val workedHours = getWorkedHoursOfTasks(tasks)
+
         assertEquals(0f, workedHours)
     }
 
@@ -164,11 +168,13 @@ class GetWorkedHoursByDateRangeTest {
             )
             addSegment(segment4)
 
-            val workedHours = getWorkedHoursByDateRange(
+            val tasks = getTasksWithExecutionsInDateRange(
                 userId = "user1",
                 from = firstOfYear.date,
                 to = todayAtStart.date
             ).first()
+            val workedHours = getWorkedHoursOfTasks(tasks)
+
             assertEquals(2f, workedHours)
         }
 
@@ -199,11 +205,12 @@ class GetWorkedHoursByDateRangeTest {
         )
         addSegment(oneHourLongSegment)
 
-        val workedHours = getWorkedHoursByDateRange(
+        val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",
             from = LocalDate(2024, 1, 1),
             to = (LocalDateTime.now() + 1.days).date
         ).first()
+        val workedHours = getWorkedHoursOfTasks(tasks)
 
         assertEquals(1f, workedHours)
     }
@@ -242,11 +249,13 @@ class GetWorkedHoursByDateRangeTest {
         addSegment(oneHourLongSegment)
         addSegment(twoHourLongSegment)
 
-        val workedHours = getWorkedHoursByDateRange(
+        val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",
             from = LocalDate(2024, 1, 1),
             to = (LocalDateTime.now() + 1.days).date
         ).first()
+        val workedHours = getWorkedHoursOfTasks(tasks)
+
         assertEquals(3f, workedHours)
     }
 
@@ -284,11 +293,13 @@ class GetWorkedHoursByDateRangeTest {
         addSegment(oneHourLongSegment)
         addSegment(twoHourLongSegment)
 
-        val workedHours = getWorkedHoursByDateRange(
+        val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",
             from = LocalDate(2024, 1, 1),
             to = (LocalDateTime.now() + 1.days).date
         ).first()
+        val workedHours = getWorkedHoursOfTasks(tasks)
+
         assertEquals(1.5f, workedHours)
     }
 }

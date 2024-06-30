@@ -13,6 +13,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             App(
+                isMobile = true,
                 darkTheme = isSystemInDarkTheme()
             )
         }
@@ -22,5 +23,5 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AppAndroidPreview() {
-    App(true)
+    App(isMobile = false, darkTheme = true)
 }

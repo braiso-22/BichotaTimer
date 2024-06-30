@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_name">Bichota Timer</string>
+    <string name="running_task">Running task</string>
+    <string name="pending_tasks">Pending tasks</string>
+    <string name="completed_tasks">Completed tasks</string>
+    <string name="status">Status</string>
+    <string name="my_day">My day</string>
+    <string name="process">Process</string>
+    <string name="start">Start</string>
+    <string name="estimated_end_of_day">Estimated end of day</string>
+    <string name="history">History</string>
+
+
+
+</resources>

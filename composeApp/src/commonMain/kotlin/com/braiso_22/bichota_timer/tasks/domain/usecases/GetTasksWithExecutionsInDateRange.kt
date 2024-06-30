@@ -11,7 +11,7 @@ class GetTasksWithExecutionsInDateRange(
     operator fun invoke(
         userId: String,
         from: LocalDate,
-        to: LocalDate
+        to: LocalDate = from
     ): Flow<List<Task>> = getTasksWithAllExecutionsByUser(userId).map { tasks ->
         tasks.map { task ->
             task.copy(

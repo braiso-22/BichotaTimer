@@ -1,4 +1,4 @@
-package com.braiso_22.bichota_timer.tasks.presentation.state
+package com.braiso_22.bichota_timer.tasks.presentation.my_day.state
 
 data class MyDayUiState(
     val stats: DayStatsUiState = DayStatsUiState(),

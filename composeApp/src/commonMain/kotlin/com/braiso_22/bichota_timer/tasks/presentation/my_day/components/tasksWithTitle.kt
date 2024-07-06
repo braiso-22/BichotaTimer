@@ -1,4 +1,4 @@
-package com.braiso_22.bichota_timer.tasks.presentation.components
+package com.braiso_22.bichota_timer.tasks.presentation.my_day.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.braiso_22.bichota_timer.tasks.presentation.state.TaskUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.TaskUiState
 
 fun LazyListScope.tasksWithTitle(
     title: String,

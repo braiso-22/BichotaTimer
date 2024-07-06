@@ -1,4 +1,4 @@
-package com.braiso_22.bichota_timer.tasks.presentation.components
+package com.braiso_22.bichota_timer.tasks.presentation.my_day.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,8 +17,8 @@ import bichotatimer.composeapp.generated.resources.status
 import bichotatimer.composeapp.generated.resources.process
 import bichotatimer.composeapp.generated.resources.start
 import bichotatimer.composeapp.generated.resources.estimated_end_of_day
-import com.braiso_22.bichota_timer.tasks.presentation.state.DayStatsUiState
-import com.braiso_22.bichota_timer.tasks.presentation.state.ProgressBarUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.DayStatsUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.ProgressBarUiState
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

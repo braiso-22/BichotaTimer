@@ -1,12 +1,10 @@
 package com.braiso_22.bichota_timer.navigation.componets
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.PermanentNavigationDrawer
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -19,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import bichotatimer.composeapp.generated.resources.Res
 import bichotatimer.composeapp.generated.resources.app_name
-import com.braiso_22.bichota_timer.tasks.presentation.state.NavigationItem
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.NavigationItem
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -27,7 +25,7 @@ import org.jetbrains.compose.resources.stringResource
 fun DesktopMenu(
     items: List<NavigationItem>,
     modifier: Modifier = Modifier,
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -56,10 +54,6 @@ fun DesktopMenu(
         },
         modifier = modifier
     ) {
-        Scaffold(
-            modifier = modifier,
-        ) { padding ->
-            content(padding)
-        }
+        content()
     }
 }

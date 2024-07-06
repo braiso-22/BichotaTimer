@@ -2,8 +2,8 @@ package com.braiso_22.bichota_timer.task.presentation.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.braiso_22.bichota_timer.tasks.presentation.components.TasksLists
-import com.braiso_22.bichota_timer.tasks.presentation.state.TaskUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.components.TasksLists
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.TaskUiState
 
 @Preview(showBackground = true)
 @Composable

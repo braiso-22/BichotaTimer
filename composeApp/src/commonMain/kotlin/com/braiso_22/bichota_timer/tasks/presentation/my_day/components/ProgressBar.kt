@@ -1,4 +1,4 @@
-package com.braiso_22.bichota_timer.tasks.presentation.components
+package com.braiso_22.bichota_timer.tasks.presentation.my_day.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.braiso_22.bichota_timer.tasks.presentation.state.ProgressBarUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.ProgressBarUiState
 
 @Composable
 fun ProgressBarComponent(

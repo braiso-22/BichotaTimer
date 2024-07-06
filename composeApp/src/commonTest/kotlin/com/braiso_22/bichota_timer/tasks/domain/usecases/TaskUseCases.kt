@@ -88,6 +88,21 @@ class TaskUseCases {
     }
 
     @Test
+    fun `Add task without id returns same task with new id`() = runBlocking {
+        val task = Task(
+            id = "",
+            name = "Task 1",
+            isWorkRelated = true,
+            creationDate = LocalDateTime.now(),
+            ticketId = 1,
+            userId = "user1"
+        )
+        val newTask = addTask(task)
+
+        assertEquals(task.copy(id = "1"), newTask)
+    }
+
+    @Test
     fun `Get tasks by user returns only tasks by user`() = runBlocking {
         val newTask = Task(
             id = "1",

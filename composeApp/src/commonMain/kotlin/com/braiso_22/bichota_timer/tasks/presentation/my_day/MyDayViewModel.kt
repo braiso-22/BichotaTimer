@@ -1,11 +1,11 @@
-package com.braiso_22.bichota_timer.tasks.presentation
+package com.braiso_22.bichota_timer.tasks.presentation.my_day
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.braiso_22.bichota_timer.tasks.domain.entities.Task
 import com.braiso_22.bichota_timer.tasks.domain.usecases.GetTasksWithExecutionsInDateRange
 import com.braiso_22.bichota_timer.tasks.domain.usecases.GetWorkedHoursOfTasks
-import com.braiso_22.bichota_timer.tasks.presentation.state.MyDayUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.MyDayUiState
 import com.raedghazal.kotlinx_datetime_ext.now
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
-import com.braiso_22.bichota_timer.tasks.presentation.mappers.toUiState
-import com.braiso_22.bichota_timer.tasks.presentation.state.DayStatsUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.mappers.toUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.DayStatsUiState
 
 class MyDayViewModel(
     private val getTasksWithExecutionsInDateRange: GetTasksWithExecutionsInDateRange,
@@ -26,8 +26,8 @@ class MyDayViewModel(
     init {
         viewModelScope.launch {
             getTasksWithExecutionsInDateRange(
-                "user1",
-                LocalDate.now(),
+                userId = "user1",
+                from = LocalDate.now(),
             ).collect { tasks ->
                 categorizeTasks(tasks)
             }
@@ -54,13 +54,5 @@ class MyDayViewModel(
                 pendingTasks = pending.map(Task::toUiState),
             )
         }
-    }
-
-    fun onEvent(event: MyDayEvent) {
-        // TODO: add events for adding tasks and pause tasks
-    }
-
-    sealed class MyDayEvent {
-
     }
 }

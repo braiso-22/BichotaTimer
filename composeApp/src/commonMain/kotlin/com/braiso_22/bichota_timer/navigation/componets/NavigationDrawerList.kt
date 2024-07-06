@@ -4,7 +4,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.braiso_22.bichota_timer.tasks.presentation.state.NavigationItem
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.NavigationItem
 
 @Composable
 fun NavigationDrawerList(

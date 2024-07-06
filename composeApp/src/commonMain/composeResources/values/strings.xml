@@ -10,7 +10,10 @@
     <string name="start">Start</string>
     <string name="estimated_end_of_day">Estimated end of day</string>
     <string name="history">History</string>
-
-
-
+    <string name="task_name">Task name</string>
+    <string name="work_related">Work related</string>
+    <string name="ticket_id">Ticket ID</string>
+    <string name="add_task">Add task</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.braiso_22.bichota_timer.tasks.presentation.state
+package com.braiso_22.bichota_timer.tasks.presentation.my_day.state
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

@@ -1,4 +1,4 @@
-package com.braiso_22.bichota_timer.tasks.presentation.components
+package com.braiso_22.bichota_timer.tasks.presentation.my_day.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -14,7 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.braiso_22.bichota_timer.tasks.presentation.state.TaskUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.TaskUiState
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TaskItem(
@@ -26,7 +27,10 @@ fun TaskItem(
         modifier = modifier.clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(modifier = Modifier.padding(8.dp)) {
+        Row(
+            modifier = Modifier.padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(text = "#${task.ticket}", modifier = Modifier.weight(0.1f))
             Text(
                 text = task.title,
@@ -49,4 +53,19 @@ fun TaskItem(
             )
         }
     }
+}
+
+@Preview
+@Composable
+private fun TaskItemPreview() {
+    TaskItem(
+        task = TaskUiState(
+            ticket = null,
+            title = "",
+            isWorkRelated = false,
+            duration = "0:00"
+        ),
+        onClick = {},
+        modifier = Modifier
+    )
 }

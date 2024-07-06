@@ -1,24 +1,25 @@
 package com.braiso_22.bichota_timer.navigation.componets
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import bichotatimer.composeapp.generated.resources.Res
 import bichotatimer.composeapp.generated.resources.history
 import bichotatimer.composeapp.generated.resources.my_day
-import com.braiso_22.bichota_timer.tasks.presentation.state.NavigationItem
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.NavigationItem
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun DynamicScaffold(
     isMobile: Boolean,
     modifier: Modifier = Modifier,
-    content: @Composable (PaddingValues) -> Unit = {}
+    drawerState: DrawerState,
+    content: @Composable () -> Unit = {}
 ) {
     val items = listOf(
         NavigationItem(
@@ -35,17 +36,18 @@ fun DynamicScaffold(
 
     if (isMobile) {
         MobileMenu(
+            drawerState = drawerState,
             items = items,
             modifier = modifier
-        ) { padding ->
-            content(padding)
+        ) {
+            content()
         }
     } else {
         DesktopMenu(
             items = items,
             modifier = modifier
-        ) { padding ->
-            content(padding)
+        ) {
+            content()
         }
     }
 }

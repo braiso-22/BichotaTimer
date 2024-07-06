@@ -1,8 +1,8 @@
-package com.braiso_22.bichota_timer.tasks.presentation.mappers
+package com.braiso_22.bichota_timer.tasks.presentation.my_day.mappers
 
 import com.braiso_22.bichota_timer.tasks.domain.entities.Task
 import com.braiso_22.bichota_timer.tasks.domain.usecases.GetWorkedHoursOfTasks
-import com.braiso_22.bichota_timer.tasks.presentation.state.TaskUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.TaskUiState
 
 fun Task.toUiState() = TaskUiState(
     ticket = ticketId,
@@ -10,8 +10,16 @@ fun Task.toUiState() = TaskUiState(
     isWorkRelated = isWorkRelated,
     duration = GetWorkedHoursOfTasks().invoke(listOf(this)).toHoursAndMinutes()
 )
+
 fun Float.toHoursAndMinutes(): String {
     val hours = this.toInt()
     val minutes = (this * 60).toInt() % 60
-    return "$hours:$minutes"
+
+    return "${hours.parseTime()}:${minutes.parseTime()}"
+}
+
+fun Int.parseTime(): String = if (this < 10) {
+    "0$this"
+} else {
+    this.toString()
 }

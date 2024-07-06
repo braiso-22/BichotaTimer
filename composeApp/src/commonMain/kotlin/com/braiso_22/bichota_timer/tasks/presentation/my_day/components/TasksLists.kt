@@ -1,4 +1,4 @@
-package com.braiso_22.bichota_timer.tasks.presentation.components
+package com.braiso_22.bichota_timer.tasks.presentation.my_day.components
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import bichotatimer.composeapp.generated.resources.*
-import com.braiso_22.bichota_timer.tasks.presentation.state.TaskUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.TaskUiState
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

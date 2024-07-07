@@ -12,6 +12,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class UpsertTaskTest {
 
@@ -86,7 +87,7 @@ class UpsertTaskTest {
             userId = "user1"
         )
         val newTask = upsertTask(task)
-
+        assertTrue(newTask.id != "")
         assertEquals(task.copy(id = newTask.id), newTask)
     }
 }

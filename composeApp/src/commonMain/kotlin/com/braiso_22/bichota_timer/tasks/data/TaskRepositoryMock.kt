@@ -49,7 +49,7 @@ class TaskRepositoryMock : TaskRepository {
     }
 
 
-    override suspend fun addExecution(execution: Execution) {
+    override suspend fun upsertExecution(execution: Execution) {
         _executions.update { currents ->
             upsertItemInList(
                 items = currents,
@@ -72,6 +72,18 @@ class TaskRepositoryMock : TaskRepository {
     override fun getTaskById(taskId: String): Flow<Task?> = tasks.map {
         it.find { task ->
             task.id == taskId
+        }
+    }
+
+    override fun getExecutionById(id: String): Flow<Execution?> = executions.map {
+        it.find { execution ->
+            execution.id == id
+        }
+    }
+
+    override fun getSegmentById(id: String): Flow<Segment?> = segments.map {
+        it.find { segment ->
+            segment.id == id
         }
     }
 

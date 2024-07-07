@@ -18,14 +18,17 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.hours
 
 class TaskUseCases {
     private lateinit var taskRepository: TaskRepository
     private lateinit var upsertTask: UpsertTask
     private lateinit var getTaskById: GetTaskById
-    private lateinit var addExecution: AddExecution
-    private lateinit var addSegment: AddSegment
+    private lateinit var getExecutionById: GetExecutionById
+    private lateinit var getSegmentById: GetSegmentById
+    private lateinit var upsertExecution: UpsertExecution
+    private lateinit var upsertSegment: UpsertSegment
     private lateinit var getTasksWithAllExecutionsByUser: GetTasksWithAllExecutionsByUser
     private lateinit var getTaskWithAllExecutions: GetTaskWithAllExecutions
     private lateinit var getWorkedHoursOfTasks: GetWorkedHoursOfTasks
@@ -35,8 +38,10 @@ class TaskUseCases {
         taskRepository = TaskRepositoryMock()
         getTaskById = GetTaskById(taskRepository)
         upsertTask = UpsertTask(taskRepository, getTaskById = getTaskById)
-        addExecution = AddExecution(taskRepository)
-        addSegment = AddSegment(taskRepository)
+        getExecutionById = GetExecutionById(taskRepository)
+        upsertExecution = UpsertExecution(taskRepository, getExecutionById = getExecutionById)
+        getSegmentById = GetSegmentById(taskRepository)
+        upsertSegment = UpsertSegment(taskRepository, getSegmentById = getSegmentById)
         getTasksWithAllExecutionsByUser = GetTasksWithAllExecutionsByUser(taskRepository)
         getTaskWithAllExecutions = GetTaskWithAllExecutions(taskRepository)
         getWorkedHoursOfTasks = GetWorkedHoursOfTasks()
@@ -44,7 +49,7 @@ class TaskUseCases {
 
 
     @Test
-    fun `Get tasks by user returns only tasks by user`() = runBlocking {
+    fun `Get tasks by user returns only tasks of user`() = runBlocking {
         val newTask = Task(
             id = "1",
             name = "Task 1",
@@ -73,7 +78,15 @@ class TaskUseCases {
     }
 
     @Test
-    fun `Add executions and segments returns all`() = runBlocking {
+    fun `Add execution without id returns same execution with new id`() = runBlocking {
+        val execution = Execution(taskId = "1")
+        val newExecution = upsertExecution(execution)
+        assertTrue(newExecution.id != "")
+        assertEquals(execution.copy(id = newExecution.id), newExecution)
+    }
+
+    @Test
+    fun `Add executions and segments returns all when getTaskWithAllExecutions`() = runBlocking {
         val newTask = Task(
             id = "1",
             name = "Task 1",
@@ -105,10 +118,10 @@ class TaskUseCases {
         )
 
         upsertTask(newTask)
-        addExecution(newExecution)
-        addExecution(secondExecution)
-        addSegment(newSegment)
-        addSegment(segment2)
+        upsertExecution(newExecution)
+        upsertExecution(secondExecution)
+        upsertSegment(newSegment)
+        upsertSegment(segment2)
 
         val task = getTaskWithAllExecutions("1").take(1).first()
 
@@ -119,6 +132,15 @@ class TaskUseCases {
         assertContains(task.executions[0].segments, newSegment)
         assertContains(task.executions[1].segments, segment2)
     }
+
+    @Test
+    fun `Add segment without id returns same segment with new id`() = runBlocking {
+        val segment = Segment(executionId = "1")
+        val newSegment = upsertSegment(segment)
+        assertTrue(newSegment.id != "")
+        assertEquals(segment.copy(id = newSegment.id), newSegment)
+    }
+
 
     @Test
     fun `Not adding tasks returns null`() = runBlocking {

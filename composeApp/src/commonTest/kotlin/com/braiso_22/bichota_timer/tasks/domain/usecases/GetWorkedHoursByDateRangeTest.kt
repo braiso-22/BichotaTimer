@@ -26,8 +26,10 @@ class GetWorkedHoursByDateRangeTest {
     private lateinit var taskRepository: TaskRepository
     private lateinit var upsertTask: UpsertTask
     private lateinit var getTaskById: GetTaskById
-    private lateinit var addExecution: AddExecution
-    private lateinit var addSegment: AddSegment
+    private lateinit var getExecutionById: GetExecutionById
+    private lateinit var getSegmentById: GetSegmentById
+    private lateinit var upsertExecution: UpsertExecution
+    private lateinit var upsertSegment: UpsertSegment
     private lateinit var getTasksWithAllExecutionsByUser: GetTasksWithAllExecutionsByUser
     private lateinit var getWorkedHoursOfTasks: GetWorkedHoursOfTasks
     private lateinit var getTasksWithExecutionsInDateRange: GetTasksWithExecutionsInDateRange
@@ -37,8 +39,10 @@ class GetWorkedHoursByDateRangeTest {
         taskRepository = TaskRepositoryMock()
         getTaskById = GetTaskById(taskRepository)
         upsertTask = UpsertTask(taskRepository, getTaskById = getTaskById)
-        addExecution = AddExecution(taskRepository)
-        addSegment = AddSegment(taskRepository)
+        getExecutionById = GetExecutionById(taskRepository)
+        upsertExecution = UpsertExecution(taskRepository, getExecutionById = getExecutionById)
+        getSegmentById = GetSegmentById(taskRepository)
+        upsertSegment = UpsertSegment(taskRepository,getSegmentById)
         getTasksWithAllExecutionsByUser = GetTasksWithAllExecutionsByUser(taskRepository)
         getTasksWithExecutionsInDateRange =
             GetTasksWithExecutionsInDateRange(getTasksWithAllExecutionsByUser)
@@ -81,7 +85,7 @@ class GetWorkedHoursByDateRangeTest {
             date = (LocalDateTime.now() - 1.days).date,
             taskId = "1"
         )
-        addExecution(execution)
+        upsertExecution(execution)
 
         val segment = Segment(
             id = "1",
@@ -89,7 +93,7 @@ class GetWorkedHoursByDateRangeTest {
             end = null,
             executionId = "1"
         )
-        addSegment(segment)
+        upsertSegment(segment)
 
         val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",
@@ -120,56 +124,56 @@ class GetWorkedHoursByDateRangeTest {
                 date = (todayAtStart).date,
                 taskId = "1"
             )
-            addExecution(execution)
+            upsertExecution(execution)
             val segment = Segment(
                 id = "1",
                 start = todayAtStart.time,
                 end = (todayAtStart + 1.hours).time,
                 executionId = "1"
             )
-            addSegment(segment)
+            upsertSegment(segment)
 
             val execution2 = Execution(
                 id = "2",
                 date = (todayAtStart + 1.days).date,
                 taskId = "1"
             )
-            addExecution(execution2)
+            upsertExecution(execution2)
             val segment2 = Segment(
                 id = "2",
                 start = (todayAtStart + 1.days).time,
                 end = (todayAtStart + 1.days + 1.hours).time,
                 executionId = "2"
             )
-            addSegment(segment2)
+            upsertSegment(segment2)
 
             val execution3 = Execution(
                 id = "3",
                 date = (firstOfYear).date,
                 taskId = "1"
             )
-            addExecution(execution3)
+            upsertExecution(execution3)
             val segment3 = Segment(
                 id = "3",
                 start = firstOfYear.time,
                 end = (firstOfYear + 1.hours).time,
                 executionId = "3"
             )
-            addSegment(segment3)
+            upsertSegment(segment3)
 
             val execution4 = Execution(
                 id = "4",
                 date = (firstOfYear - 1.days).date,
                 taskId = "1"
             )
-            addExecution(execution4)
+            upsertExecution(execution4)
             val segment4 = Segment(
                 id = "4",
                 start = (firstOfYear - 1.days).time,
                 end = (firstOfYear - 1.days + 1.hours).time,
                 executionId = "4"
             )
-            addSegment(segment4)
+            upsertSegment(segment4)
 
             val tasks = getTasksWithExecutionsInDateRange(
                 userId = "user1",
@@ -198,7 +202,7 @@ class GetWorkedHoursByDateRangeTest {
             date = (todayAtStart - 1.days).date,
             taskId = "1"
         )
-        addExecution(execution)
+        upsertExecution(execution)
 
         val oneHourLongSegment = Segment(
             id = "1",
@@ -206,7 +210,7 @@ class GetWorkedHoursByDateRangeTest {
             end = (todayAtStart + 1.hours).time,
             executionId = "1"
         )
-        addSegment(oneHourLongSegment)
+        upsertSegment(oneHourLongSegment)
 
         val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",
@@ -235,7 +239,7 @@ class GetWorkedHoursByDateRangeTest {
             date = (todayAtStart - 1.days).date,
             taskId = "1"
         )
-        addExecution(execution)
+        upsertExecution(execution)
 
         val oneHourLongSegment = Segment(
             id = "1",
@@ -249,8 +253,8 @@ class GetWorkedHoursByDateRangeTest {
             end = (todayAtStart + 3.hours).time,
             executionId = "1"
         )
-        addSegment(oneHourLongSegment)
-        addSegment(twoHourLongSegment)
+        upsertSegment(oneHourLongSegment)
+        upsertSegment(twoHourLongSegment)
 
         val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",
@@ -279,7 +283,7 @@ class GetWorkedHoursByDateRangeTest {
             date = (todayAtStart - 1.days).date,
             taskId = "1"
         )
-        addExecution(execution)
+        upsertExecution(execution)
 
         val oneHourLongSegment = Segment(
             id = "1",
@@ -293,8 +297,8 @@ class GetWorkedHoursByDateRangeTest {
             end = (todayAtStart + 1.hours + 30.minutes).time,
             executionId = "1"
         )
-        addSegment(oneHourLongSegment)
-        addSegment(twoHourLongSegment)
+        upsertSegment(oneHourLongSegment)
+        upsertSegment(twoHourLongSegment)
 
         val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",

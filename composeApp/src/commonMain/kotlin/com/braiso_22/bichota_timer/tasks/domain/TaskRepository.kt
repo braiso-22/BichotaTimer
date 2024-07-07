@@ -7,9 +7,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
     suspend fun addTask(task: Task)
-    suspend fun addExecution(execution: Execution)
+    suspend fun upsertExecution(execution: Execution)
     suspend fun addSegment(segment: Segment)
     fun getTaskById(taskId: String): Flow<Task?>
+    fun getExecutionById(id: String): Flow<Execution?>
+    fun getSegmentById(id: String): Flow<Segment?>
     fun getTasksByUserId(userId: String): Flow<List<Task>>
     fun getExecutionsByTaskId(taskId: String): Flow<List<Execution>>
 }

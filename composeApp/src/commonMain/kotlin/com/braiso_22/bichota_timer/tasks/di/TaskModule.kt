@@ -2,7 +2,7 @@ package com.braiso_22.bichota_timer.tasks.di
 
 import com.braiso_22.bichota_timer.tasks.data.TaskRepositoryMock
 import com.braiso_22.bichota_timer.tasks.domain.TaskRepository
-import com.braiso_22.bichota_timer.tasks.domain.usecases.AddExecution
+import com.braiso_22.bichota_timer.tasks.domain.usecases.UpsertExecution
 import com.braiso_22.bichota_timer.tasks.domain.usecases.UpsertTask
 import com.braiso_22.bichota_timer.tasks.domain.usecases.GetTasksWithAllExecutionsByUser
 import com.braiso_22.bichota_timer.tasks.domain.usecases.GetTasksWithExecutionsInDateRange
@@ -20,7 +20,7 @@ val taskModule = module {
     singleOf(::GetTasksWithExecutionsInDateRange).bind()
     singleOf(::GetWorkedHoursOfTasks).bind()
     singleOf(::UpsertTask).bind()
-    singleOf(::AddExecution).bind()
+    singleOf(::UpsertExecution).bind()
 
 
     viewModelOf(::MyDayViewModel)

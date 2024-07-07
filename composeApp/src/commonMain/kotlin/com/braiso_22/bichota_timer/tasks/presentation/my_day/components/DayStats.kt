@@ -24,7 +24,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun DayStatsComponent(
     state: DayStatsUiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
@@ -61,7 +61,7 @@ fun DayStatsComponent(
             ProgressBarComponent(
                 state = ProgressBarUiState(
                     progress = state.hoursWorked,
-                    total = state.hoursToWork
+                    total = state.hoursToWork,
                 ),
                 modifier = Modifier.weight(1f)
             )

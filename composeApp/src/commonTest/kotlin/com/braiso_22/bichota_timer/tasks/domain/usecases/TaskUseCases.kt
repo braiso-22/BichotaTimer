@@ -141,6 +141,32 @@ class TaskUseCases {
         assertEquals(segment.copy(id = newSegment.id), newSegment)
     }
 
+    @Test
+    fun `Add segment without id linked to task returns this execution`() = runBlocking {
+        val task = Task(
+            id = "1",
+            name = "Task 1",
+            isWorkRelated = true,
+            creationDate = LocalDateTime.now(),
+            ticketId = 1,
+            userId = "user1",
+        )
+        val execution = Execution(
+            id = "1",
+            taskId = task.id
+        )
+        val segment = Segment(
+            executionId = execution.id
+        )
+        upsertTask(task)
+        upsertExecution(execution)
+        val newSegment = upsertSegment(segment)
+
+        val taskWithExecution = getTaskWithAllExecutions("1").take(1).first()
+        assertNotNull(taskWithExecution)
+        assertEquals(taskWithExecution.executions[0].segments[0].id, newSegment.id)
+    }
+
 
     @Test
     fun `Not adding tasks returns null`() = runBlocking {

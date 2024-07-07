@@ -22,6 +22,7 @@ fun LazyListScope.tasksWithTitle(
     title: String,
     isExpanded: Boolean,
     onClick: () -> Unit,
+    onClickTask: (TaskUiState) -> Unit,
     tasks: List<TaskUiState>,
 ) {
     item {
@@ -48,6 +49,7 @@ fun LazyListScope.tasksWithTitle(
             items(tasks) { item ->
                 TaskItem(
                     task = item,
+                    onClick = { onClickTask(item) },
                     modifier = Modifier.fillMaxWidth()
                 )
             }

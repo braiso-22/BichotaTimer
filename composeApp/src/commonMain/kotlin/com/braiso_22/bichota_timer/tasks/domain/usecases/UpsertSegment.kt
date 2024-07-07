@@ -9,14 +9,14 @@ class UpsertSegment(
     private val getSegmentById: GetSegmentById,
 ) {
     suspend operator fun invoke(segment: Segment): Segment {
-        val existingExecution: Segment? = getSegmentById(segment.id)
+        val existingSegment: Segment? = getSegmentById(segment.id)
 
-        val executionToInsert = if (existingExecution == null && segment.id == "") {
+        val segmentToInsert = if (existingSegment == null && segment.id == "") {
             segment.copy(id = uuid4().toString())
         } else {
             segment
         }
-        taskRepository.addSegment(segment)
-        return executionToInsert
+        taskRepository.addSegment(segmentToInsert)
+        return segmentToInsert
     }
 }

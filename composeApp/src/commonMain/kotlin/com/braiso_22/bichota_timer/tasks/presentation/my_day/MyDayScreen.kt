@@ -77,6 +77,7 @@ fun MyDayScreen(
                 runningTask = state.inProgressTasks,
                 pendingTasks = state.pendingTasks,
                 completedTasks = state.completedTasks,
+                onEvent = viewModel::onEvent,
                 modifier = Modifier.fillMaxWidth()
             )
         }

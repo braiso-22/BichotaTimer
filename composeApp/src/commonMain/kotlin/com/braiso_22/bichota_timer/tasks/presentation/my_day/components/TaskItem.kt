@@ -20,7 +20,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun TaskItem(
     task: TaskUiState,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -31,12 +31,14 @@ fun TaskItem(
             modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "#${task.ticket}", modifier = Modifier.weight(0.1f))
+            task.ticket?.let { taskTicket ->
+                Text(text = "#${taskTicket}", modifier = Modifier.weight(0.2f))
+            }
             Text(
                 text = task.title,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                modifier = Modifier.weight(0.6f)
+                modifier = Modifier.weight(0.5f)
             )
             Text(
                 text = task.duration,
@@ -60,6 +62,7 @@ fun TaskItem(
 private fun TaskItemPreview() {
     TaskItem(
         task = TaskUiState(
+            id = "1",
             ticket = null,
             title = "",
             isWorkRelated = false,

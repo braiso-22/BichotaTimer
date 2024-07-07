@@ -66,7 +66,7 @@ class GetWorkedHoursByDateRangeTest {
             to = (LocalDateTime.now() + 1.days).date
         ).first()
         val workedHours = getWorkedHoursOfTasks(tasks)
-        assertEquals(0f, workedHours)
+        assertEquals(0.0, workedHours)
     }
 
     @Test
@@ -102,7 +102,7 @@ class GetWorkedHoursByDateRangeTest {
         ).first()
         val workedHours = getWorkedHoursOfTasks(tasks)
 
-        assertEquals(0f, workedHours)
+        assertEquals(0.0, workedHours)
     }
 
     @Test
@@ -182,7 +182,7 @@ class GetWorkedHoursByDateRangeTest {
             ).first()
             val workedHours = getWorkedHoursOfTasks(tasks)
 
-            assertEquals(2f, workedHours)
+            assertEquals(2.0, workedHours)
         }
 
     @Test
@@ -219,7 +219,7 @@ class GetWorkedHoursByDateRangeTest {
         ).first()
         val workedHours = getWorkedHoursOfTasks(tasks)
 
-        assertEquals(1f, workedHours)
+        assertEquals(1.0, workedHours)
     }
 
     @Test
@@ -263,7 +263,7 @@ class GetWorkedHoursByDateRangeTest {
         ).first()
         val workedHours = getWorkedHoursOfTasks(tasks)
 
-        assertEquals(3f, workedHours)
+        assertEquals(3.0, workedHours)
     }
 
     @Test
@@ -307,6 +307,6 @@ class GetWorkedHoursByDateRangeTest {
         ).first()
         val workedHours = getWorkedHoursOfTasks(tasks)
 
-        assertEquals(1.5f, workedHours)
+        assertEquals(1.5, workedHours)
     }
 }

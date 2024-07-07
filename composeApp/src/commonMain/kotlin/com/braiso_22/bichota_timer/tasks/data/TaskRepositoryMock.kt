@@ -26,81 +26,47 @@ class TaskRepositoryMock : TaskRepository {
         items: List<T>,
         getItemIndex: (T) -> Boolean,
         newItem: T,
-        setIdIfEmpty: (T, List<T>) -> T,
     ): List<T> {
         val index = items.indexOfFirst(getItemIndex)
-
-        val updatedElement = if (index != -1) {
-            newItem
-        } else {
-            setIdIfEmpty(newItem, items)
-        }
-
         return if (index != -1) {
             items.toMutableList().apply {
-                set(index, updatedElement)
+                set(index, newItem)
             }
         } else {
-            items + updatedElement
+            items + newItem
         }
     }
 
 
-    override suspend fun addTask(task: Task): Task {
-        var taskWithId = task
+    override suspend fun addTask(task: Task) {
         _tasks.update { currents ->
-            val newList = upsertItemInList(
+            upsertItemInList(
                 items = currents,
-                getItemIndex = { taskWithId.id == it.id },
-                newItem = taskWithId,
-                setIdIfEmpty = { element, list ->
-                    val newId = list.size + 1
-                    element.copy(id = "$newId").also {
-                        taskWithId = it
-                    }
-                }
+                getItemIndex = { task.id == it.id },
+                newItem = task,
             )
-            newList
         }
-        val newTask = _tasks.value.first { it.id == taskWithId.id }
-        return newTask
     }
 
 
-    override suspend fun addExecution(execution: Execution): Execution {
-        var executionWithId = execution
+    override suspend fun addExecution(execution: Execution) {
         _executions.update { currents ->
             upsertItemInList(
                 items = currents,
-                getItemIndex = { it.id == executionWithId.id },
-                newItem = executionWithId,
-                setIdIfEmpty = { element, list ->
-                    val newId = list.size + 1
-                    element.copy(id = "$newId").also {
-                        executionWithId = it
-                    }
-                }
+                getItemIndex = { it.id == execution.id },
+                newItem = execution,
             )
         }
-        return _executions.value.first { it.id == executionWithId.id }
     }
 
-    override suspend fun addSegment(segment: Segment): Segment {
-        var segmentWithId = segment
+    override suspend fun addSegment(segment: Segment) {
         _segments.update { currents ->
             upsertItemInList(
                 items = currents,
-                getItemIndex = { it.id == segmentWithId.id },
-                newItem = segmentWithId,
-                setIdIfEmpty = { element, list ->
-                    val newId = list.size + 1
-                    element.copy(id = "$newId").also {
-                        segmentWithId = it
-                    }
-                }
+                getItemIndex = { it.id == segment.id },
+                newItem = segment,
             )
         }
-        return _segments.value.first { it.id == segmentWithId.id }
     }
 
     override fun getTaskById(taskId: String): Flow<Task?> = tasks.map {

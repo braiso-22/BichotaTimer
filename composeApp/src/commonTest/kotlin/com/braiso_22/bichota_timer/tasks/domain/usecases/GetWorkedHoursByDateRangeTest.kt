@@ -24,7 +24,8 @@ import kotlin.time.Duration.Companion.minutes
 class GetWorkedHoursByDateRangeTest {
 
     private lateinit var taskRepository: TaskRepository
-    private lateinit var addTask: AddTask
+    private lateinit var upsertTask: UpsertTask
+    private lateinit var getTaskById: GetTaskById
     private lateinit var addExecution: AddExecution
     private lateinit var addSegment: AddSegment
     private lateinit var getTasksWithAllExecutionsByUser: GetTasksWithAllExecutionsByUser
@@ -34,11 +35,13 @@ class GetWorkedHoursByDateRangeTest {
     @BeforeTest
     fun setup() {
         taskRepository = TaskRepositoryMock()
-        addTask = AddTask(taskRepository)
+        getTaskById = GetTaskById(taskRepository)
+        upsertTask = UpsertTask(taskRepository, getTaskById = getTaskById)
         addExecution = AddExecution(taskRepository)
         addSegment = AddSegment(taskRepository)
         getTasksWithAllExecutionsByUser = GetTasksWithAllExecutionsByUser(taskRepository)
-        getTasksWithExecutionsInDateRange = GetTasksWithExecutionsInDateRange(getTasksWithAllExecutionsByUser)
+        getTasksWithExecutionsInDateRange =
+            GetTasksWithExecutionsInDateRange(getTasksWithAllExecutionsByUser)
         getWorkedHoursOfTasks = GetWorkedHoursOfTasks()
     }
 
@@ -52,7 +55,7 @@ class GetWorkedHoursByDateRangeTest {
             userId = "user1"
         )
 
-        addTask(newTask)
+        upsertTask(newTask)
         val tasks = getTasksWithExecutionsInDateRange(
             userId = "user1",
             from = LocalDate(2024, 1, 1),
@@ -71,7 +74,7 @@ class GetWorkedHoursByDateRangeTest {
             creationDate = LocalDateTime.now(),
             userId = "user1"
         )
-        addTask(newTask)
+        upsertTask(newTask)
 
         val execution = Execution(
             id = "1",
@@ -110,7 +113,7 @@ class GetWorkedHoursByDateRangeTest {
                 creationDate = todayAtStart,
                 userId = "user1"
             )
-            addTask(newTask)
+            upsertTask(newTask)
 
             val execution = Execution(
                 id = "1",
@@ -188,7 +191,7 @@ class GetWorkedHoursByDateRangeTest {
             creationDate = todayAtStart,
             userId = "user1"
         )
-        addTask(newTask)
+        upsertTask(newTask)
 
         val execution = Execution(
             id = "1",
@@ -225,7 +228,7 @@ class GetWorkedHoursByDateRangeTest {
             creationDate = todayAtStart,
             userId = "user1"
         )
-        addTask(newTask)
+        upsertTask(newTask)
 
         val execution = Execution(
             id = "1",
@@ -269,7 +272,7 @@ class GetWorkedHoursByDateRangeTest {
             creationDate = todayAtStart,
             userId = "user1"
         )
-        addTask(newTask)
+        upsertTask(newTask)
 
         val execution = Execution(
             id = "1",

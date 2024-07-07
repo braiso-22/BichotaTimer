@@ -22,7 +22,8 @@ import kotlin.time.Duration.Companion.hours
 
 class TaskUseCases {
     private lateinit var taskRepository: TaskRepository
-    private lateinit var addTask: AddTask
+    private lateinit var upsertTask: UpsertTask
+    private lateinit var getTaskById: GetTaskById
     private lateinit var addExecution: AddExecution
     private lateinit var addSegment: AddSegment
     private lateinit var getTasksWithAllExecutionsByUser: GetTasksWithAllExecutionsByUser
@@ -32,7 +33,8 @@ class TaskUseCases {
     @BeforeTest
     fun setup() {
         taskRepository = TaskRepositoryMock()
-        addTask = AddTask(taskRepository)
+        getTaskById = GetTaskById(taskRepository)
+        upsertTask = UpsertTask(taskRepository, getTaskById = getTaskById)
         addExecution = AddExecution(taskRepository)
         addSegment = AddSegment(taskRepository)
         getTasksWithAllExecutionsByUser = GetTasksWithAllExecutionsByUser(taskRepository)
@@ -40,67 +42,6 @@ class TaskUseCases {
         getWorkedHoursOfTasks = GetWorkedHoursOfTasks()
     }
 
-    @Test
-    fun `Add task returns only that task`() = runBlocking {
-        val newTask = Task(
-            id = "1",
-            name = "Task 1",
-            isWorkRelated = true,
-            creationDate = LocalDateTime.now(),
-            ticketId = 1,
-            userId = "user1"
-        )
-
-        addTask(newTask)
-
-        val tasks = getTasksWithAllExecutionsByUser("user1").take(1).first()
-
-        assertEquals(1, tasks.size)
-        assertContains(tasks, newTask)
-    }
-
-    @Test
-    fun `Add task with same id returns only that task`() = runBlocking {
-        val newTask = Task(
-            id = "1",
-            name = "Task 1",
-            isWorkRelated = true,
-            creationDate = LocalDateTime.now(),
-            ticketId = 1,
-            userId = "user1"
-        )
-        val secondTask = Task(
-            id = "1",
-            name = "Task 2",
-            isWorkRelated = true,
-            creationDate = LocalDateTime.now(),
-            ticketId = 1,
-            userId = "user1"
-        )
-
-        addTask(newTask)
-        addTask(secondTask)
-
-        val tasks = getTasksWithAllExecutionsByUser("user1").take(1).first()
-
-        assertEquals(1, tasks.size)
-        assertContains(tasks, secondTask)
-    }
-
-    @Test
-    fun `Add task without id returns same task with new id`() = runBlocking {
-        val task = Task(
-            id = "",
-            name = "Task 1",
-            isWorkRelated = true,
-            creationDate = LocalDateTime.now(),
-            ticketId = 1,
-            userId = "user1"
-        )
-        val newTask = addTask(task)
-
-        assertEquals(task.copy(id = "1"), newTask)
-    }
 
     @Test
     fun `Get tasks by user returns only tasks by user`() = runBlocking {
@@ -122,8 +63,8 @@ class TaskUseCases {
             userId = "user2"
         )
 
-        addTask(newTask)
-        addTask(secondTask)
+        upsertTask(newTask)
+        upsertTask(secondTask)
 
         val tasks: List<Task> = getTasksWithAllExecutionsByUser("user1").take(1).first()
 
@@ -163,7 +104,7 @@ class TaskUseCases {
             executionId = secondExecution.id
         )
 
-        addTask(newTask)
+        upsertTask(newTask)
         addExecution(newExecution)
         addExecution(secondExecution)
         addSegment(newSegment)
@@ -196,7 +137,7 @@ class TaskUseCases {
             ticketId = 1,
             userId = "user1",
         )
-        addTask(newTask)
+        upsertTask(newTask)
         val task = getTaskWithAllExecutions("2").take(1).first()
 
         assertNull(task)

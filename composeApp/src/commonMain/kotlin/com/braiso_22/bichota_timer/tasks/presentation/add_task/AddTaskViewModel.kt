@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.braiso_22.bichota_timer.tasks.domain.entities.Execution
 import com.braiso_22.bichota_timer.tasks.domain.entities.Task
 import com.braiso_22.bichota_timer.tasks.domain.usecases.AddExecution
-import com.braiso_22.bichota_timer.tasks.domain.usecases.AddTask
+import com.braiso_22.bichota_timer.tasks.domain.usecases.UpsertTask
 import com.braiso_22.bichota_timer.tasks.presentation.add_task.events.AddTaskUiEvent
 import com.braiso_22.bichota_timer.tasks.presentation.add_task.events.AddTaskViewModelEvents
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AddTaskViewModel(
-    private val addTask: AddTask,
+    private val upsertTask: UpsertTask,
     private val addExecution: AddExecution,
 ) : ViewModel() {
     private val _state = MutableStateFlow(AddTaskUiState(userId = "user1"))
@@ -49,7 +49,7 @@ class AddTaskViewModel(
             is AddTaskUiEvent.Save -> {
                 viewModelScope.launch {
                     val task: Task = _state.value.toDomain()
-                    val createdTask = addTask(task)
+                    val createdTask = upsertTask(task)
                     addExecution(Execution(taskId = createdTask.id))
                     _eventFlow.emit(AddTaskViewModelEvents.OnSave)
                 }

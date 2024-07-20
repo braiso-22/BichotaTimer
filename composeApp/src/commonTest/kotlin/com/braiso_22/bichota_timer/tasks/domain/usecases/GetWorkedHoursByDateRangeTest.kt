@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.minutes
@@ -42,7 +42,7 @@ class GetWorkedHoursByDateRangeTest {
         getExecutionById = GetExecutionById(taskRepository)
         upsertExecution = UpsertExecution(taskRepository, getExecutionById = getExecutionById)
         getSegmentById = GetSegmentById(taskRepository)
-        upsertSegment = UpsertSegment(taskRepository,getSegmentById)
+        upsertSegment = UpsertSegment(taskRepository, getSegmentById)
         getTasksWithAllExecutionsByUser = GetTasksWithAllExecutionsByUser(taskRepository)
         getTasksWithExecutionsInDateRange =
             GetTasksWithExecutionsInDateRange(getTasksWithAllExecutionsByUser)
@@ -70,7 +70,7 @@ class GetWorkedHoursByDateRangeTest {
     }
 
     @Test
-    fun `GetWorked hours without finished segments returns 0`() = runBlocking {
+    fun `GetWorked hours without finished segments returns worked time to now`() = runBlocking {
         val newTask = Task(
             id = "1",
             name = "Task 1",
@@ -89,8 +89,7 @@ class GetWorkedHoursByDateRangeTest {
 
         val segment = Segment(
             id = "1",
-            start = LocalTime.now(),
-            end = null,
+            start = (LocalDateTime.now() - 1.minutes).time,
             executionId = "1"
         )
         upsertSegment(segment)
@@ -102,7 +101,7 @@ class GetWorkedHoursByDateRangeTest {
         ).first()
         val workedHours = getWorkedHoursOfTasks(tasks)
 
-        assertEquals(0.0, workedHours)
+        assertNotEquals(0.0, workedHours)
     }
 
     @Test

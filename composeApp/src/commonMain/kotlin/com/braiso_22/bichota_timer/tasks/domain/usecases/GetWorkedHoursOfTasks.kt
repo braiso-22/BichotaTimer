@@ -3,6 +3,8 @@ package com.braiso_22.bichota_timer.tasks.domain.usecases
 import com.braiso_22.bichota_timer.tasks.domain.entities.Execution
 import com.braiso_22.bichota_timer.tasks.domain.entities.Segment
 import com.braiso_22.bichota_timer.tasks.domain.entities.Task
+import com.raedghazal.kotlinx_datetime_ext.now
+import kotlinx.datetime.LocalTime
 
 class GetWorkedHoursOfTasks {
     operator fun invoke(tasks: List<Task>): Double = tasks.getTotalHours()
@@ -20,11 +22,7 @@ class GetWorkedHoursOfTasks {
         segment.totalMinutes()
     }
 
-    /**
-    The duration is 0 if the end is null because
-    we don't want to have it in account until its finished
-     */
-    private fun Segment.totalMinutes(): Double = this.end?.let { end ->
+    private fun Segment.totalMinutes(): Double = (this.end ?: LocalTime.now()).let { end ->
         (end.toSecondOfDay() - this.start.toSecondOfDay()).toDouble() / 60
-    } ?: 0.0
+    }
 }

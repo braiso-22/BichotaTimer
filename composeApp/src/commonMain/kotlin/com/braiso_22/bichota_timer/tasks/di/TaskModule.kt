@@ -11,6 +11,7 @@ import com.braiso_22.bichota_timer.tasks.domain.usecases.UpsertTask
 import com.braiso_22.bichota_timer.tasks.domain.usecases.GetTasksWithAllExecutionsByUser
 import com.braiso_22.bichota_timer.tasks.domain.usecases.GetTasksWithExecutionsInDateRange
 import com.braiso_22.bichota_timer.tasks.domain.usecases.GetWorkedHoursOfTasks
+import com.braiso_22.bichota_timer.tasks.domain.usecases.Ticker
 import com.braiso_22.bichota_timer.tasks.domain.usecases.UpsertSegment
 import com.braiso_22.bichota_timer.tasks.presentation.add_task.AddTaskViewModel
 import com.braiso_22.bichota_timer.tasks.presentation.my_day.MyDayViewModel
@@ -27,6 +28,9 @@ val taskModule = module {
     singleOf(::GetCategorizedTasks).bind()
     singleOf(::GetTaskById).bind()
     singleOf(::GetSegmentById).bind()
+    single {
+        Ticker()
+    }.bind()
     singleOf(::GetExecutionById).bind()
     singleOf(::UpsertTask).bind()
     singleOf(::UpsertExecution).bind()

@@ -58,7 +58,9 @@ kotlin {
             implementation(libs.uuid)
         }
         desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
+            //implementation(compose.desktop.currentOs)
+            implementation(compose.desktop.macos_arm64)
+            implementation(libs.kotlinx.coroutines.swing)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

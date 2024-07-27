@@ -19,8 +19,9 @@ import kotlinx.coroutines.launch
 fun MobileMenu(
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     items: List<NavigationItem>,
+    onItemClick: (NavigationItem) -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -36,6 +37,7 @@ fun MobileMenu(
                     selectedItemIndex = selectedItemIndex,
                     onClick = {
                         selectedItemIndex = it
+                        onItemClick(items[it])
                         scope.launch {
                             drawerState.close()
                         }

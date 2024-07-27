@@ -24,6 +24,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun DesktopMenu(
     items: List<NavigationItem>,
+    onItemClick: (NavigationItem) -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
@@ -45,6 +46,7 @@ fun DesktopMenu(
                     selectedItemIndex = selectedItemIndex,
                     onClick = {
                         selectedItemIndex = it
+                        onItemClick(items[it])
                         scope.launch {
                             drawerState.close()
                         }

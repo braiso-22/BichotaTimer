@@ -6,7 +6,7 @@
     <string name="completed_tasks">Completed tasks</string>
     <string name="status">Status</string>
     <string name="my_day">My day</string>
-    <string name="process">Process</string>
+    <string name="progress">Progress</string>
     <string name="start">Start</string>
     <string name="estimated_end_of_day">Estimated end of day</string>
     <string name="history">History</string>

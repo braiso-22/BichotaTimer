@@ -18,10 +18,11 @@ import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.ProgressBarUi
 @Composable
 fun ProgressBarComponent(
     state: ProgressBarUiState,
+    formatter: (Float) -> String = { it.toString() },
     modifier: Modifier = Modifier,
 ) {
     val madePercentage: Float = if (state.total == 0f) 0.1f else {
-        state.progress / state.total * 100
+        (state.progress / state.total * 100).coerceIn(0f, 100f)
     }
     val remainingPercentage = 100 - madePercentage
     Box(
@@ -44,15 +45,9 @@ fun ProgressBarComponent(
                     .background(MaterialTheme.colorScheme.onPrimaryContainer).padding(16.dp)
             )
         }
-        val roundedProgress = if (state.progress < 0.01f) {
-            "0.0"
-        } else {
-            val part = state.progress.toString().split(".")
-            part[0] + "." + part[1].take(2)
-        }
 
         Text(
-            text = "${roundedProgress}/${state.total}",
+            text = "${formatter(state.progress)}/${formatter(state.total)}",
             modifier = Modifier.align(Alignment.Center),
             color = MaterialTheme.colorScheme.onPrimary,
         )

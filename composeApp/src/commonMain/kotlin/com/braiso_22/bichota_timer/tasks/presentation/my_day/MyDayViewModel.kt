@@ -11,8 +11,8 @@ import com.braiso_22.bichota_timer.tasks.domain.usecases.Ticker
 import com.braiso_22.bichota_timer.tasks.domain.usecases.UpsertSegment
 import com.braiso_22.bichota_timer.tasks.presentation.my_day.events.MyDayUiEvent
 import com.braiso_22.bichota_timer.tasks.presentation.my_day.mappers.toUiState
-import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.DayStatsUiState
 import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.MyDayUiState
+import com.braiso_22.bichota_timer.tasks.presentation.my_day.state.ProgressBarUiState
 import com.raedghazal.kotlinx_datetime_ext.now
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -86,8 +86,10 @@ class MyDayViewModel(
         val (completed, running, pending) = categorizedTasks
         _state.update { currentState ->
             currentState.copy(
-                stats = DayStatsUiState(
-                    hoursWorked = workedHours.toFloat(),
+                stats = currentState.stats.copy(
+                    progress = ProgressBarUiState(
+                        progress = workedHours.toFloat(),
+                    )
                     // TODO: add the rest of the data
                 ),
                 completedTasks = completed.map(Task::toUiState),

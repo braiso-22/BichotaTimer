@@ -24,11 +24,13 @@ import androidx.navigation.navigation
 import bichotatimer.composeapp.generated.resources.Res
 import bichotatimer.composeapp.generated.resources.history
 import bichotatimer.composeapp.generated.resources.settings
-import com.braiso_22.bichota_timer.navigation.componets.DynamicScaffold
+import bichotatimer.composeapp.generated.resources.work_hours
+import com.braiso_22.bichota_timer.navigation.DynamicScaffold
 import com.braiso_22.bichota_timer.tasks.presentation.add_task.AddTaskScreen
 import com.braiso_22.bichota_timer.tasks.presentation.add_task.AddTaskViewModel
 import com.braiso_22.bichota_timer.tasks.presentation.my_day.MyDayScreen
 import com.braiso_22.bichota_timer.tasks.presentation.my_day.MyDayViewModel
+import com.braiso_22.bichota_timer.work_hours_config.presentation.WorkHoursConfigScreen
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -119,35 +121,23 @@ fun App(
 
                             }
                         }
+                        composable("work_hours") {
+                            WorkHoursConfigScreen(
+                                openDrawer = {
+                                    coroutineScope.launch {
+                                        drawerState.open()
+                                    }
+                                }
+                            )
+                        }
                         composable("settings") {
-                            Scaffold(
-                                topBar = {
-                                    TopAppBar(
-                                        title = { Text(stringResource(Res.string.settings)) },
-                                        colors = TopAppBarDefaults.topAppBarColors(
-                                            containerColor = MaterialTheme.colorScheme.primary,
-                                            titleContentColor = MaterialTheme.colorScheme.onPrimary
-                                        ),
-                                        navigationIcon = {
-                                            IconButton(
-                                                onClick = {
-                                                    coroutineScope.launch {
-                                                        drawerState.open()
-                                                    }
-                                                }
-                                            ) {
-                                                Icon(
-                                                    Icons.Default.Menu,
-                                                    contentDescription = "Menu",
-                                                    tint = MaterialTheme.colorScheme.onPrimary
-                                                )
-                                            }
-                                        }
-                                    )
-                                },
-                            ) {
-
-                            }
+                            WorkHoursConfigScreen(
+                                openDrawer = {
+                                    coroutineScope.launch {
+                                        drawerState.open()
+                                    }
+                                }
+                            )
                         }
                     }
                 }
